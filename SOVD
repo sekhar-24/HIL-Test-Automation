@@ -1,1 +1,3 @@
-ASAM SOVD (Service-Oriented Vehicle Diagnostics) is a modern diagnostic protocol (ISO 17978) designed for software-defined vehicles and High-Performance Computers (HPCs). It uses REST APIs, HTTP, and JSON to provide flexible, self-describing diagnostic capabilities, moving beyond the limitations of traditional ECU-centered UDS, making it ideal for remote/over-the-air (OTA) diagnostics.
+ASAM SOVD (Service-Oriented Vehicle Diagnostics) 
+It is a modern diagnostic protocol (ISO 17978) designed for software-defined vehicles and High-Performance Computers (HPCs). 
+It uses REST APIs, HTTP, and JSON to provide flexible, self-describing diagnostic capabilities, moving beyond the limitations of traditional ECU-centered UDS, making it ideal for remote/over-the-air (OTA) diagnostics.
