@@ -1,3 +1,29 @@
 ASAM SOVD (Service-Oriented Vehicle Diagnostics) 
 It is a modern diagnostic protocol (ISO 17978) designed for software-defined vehicles and High-Performance Computers (HPCs). 
 It uses REST APIs, HTTP, and JSON to provide flexible, self-describing diagnostic capabilities, moving beyond the limitations of traditional ECU-centered UDS, making it ideal for remote/over-the-air (OTA) diagnostics.
+
+Core SOVD & HiL Concepts
+SOVD vs. UDS in HiL: How does the test setup for SOVD differ from traditional UDS?
+Answer: Traditional UDS testing focuses on CAN/LIN bus cycles and fixed ODX/CDD databases. SOVD testing requires an Ethernet-based HiL setup (DoIP or standard Ethernet) and tools that can handle REST APIs and JSON payloads rather than raw hex bytes.
+Entity Discovery: How do you verify "Self-Description" on an HiL bench?
+Answer: You must test that the SOVD server (the ECU/HPC) correctly lists its available "entities" (apps, functions, components) when queried, and that these update dynamically after a software-over-the-air (SOTA) update simulation.
+The SOVD Gateway/Adapter: How do you test communication with legacy ECUs?
+Answer: You simulate a SOVD-to-UDS adapter. The test case involves sending an HTTP command to the SOVD interface and verifying that the adapter correctly translates this into a UDS request (e.g., Service 0x22) for a simulated or real legacy ECU on the bus. 
+YouTube
+YouTube
+ +2
+Technical & Functional Questions
+Security Validation: What security mechanisms must be verified in an SOVD HiL environment?
+Answer: You must validate OAuth 2.0 and TLS handshakes. The HiL must simulate a valid "Client" with the correct tokens to access restricted diagnostic resources.
+Fault Injection: How do you perform negative testing for SOVD?
+Answer: Use the HiL to simulate abnormal responses from the underlying UDS controller (e.g., NRC 0x78 or no response) and observe if the SOVD server reports the correct HTTP error code (like 504 Gateway Timeout).
+Resource Access: Explain how you would test fetching "Live Data" via SOVD.
+Answer: Verify that the URI (e.g., /vehicle/components/adas/data/cpu_load) returns the correct JSON-formatted engineering value without needing external conversion tables (like A2L or ODX). 
+YouTube
+YouTube
+ +2
+Tooling & Setup
+Network Configuration: What is required to monitor SOVD traffic?
+Answer: Unlike a CAN logger, you need an Ethernet tap or a tool like Vector CANoe with Ethernet/DoIP capabilities to capture and decode HTTP/2 or HTTP/1.1 traffic.
+Real-time Constraints: Does SOVD have the same P2/P2* timing requirements as UDS?
+Answer: While SOVD is more flexible, system-level "Keep Alive" and timeout configurations for the HTTP sessions must still be validated to ensure the diagnostic tool doesn't disconnect during long operations like flashing. 
